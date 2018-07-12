@@ -113,13 +113,21 @@ class Lite
     }
 
     /**
-     * desc 回调信息 解析
+     * desc 回调信息 解析 验证
+     * @param array $data
+     * @return array
      */
 
     public function noticeOrder($data)
     {
 
-        return $this->xmlToArray($data);
+        $res = $this->xmlToArray($data);
+        if ($this->sign($res['OrderID'] . $res['ECode'] . $res['OrderNum'] . $res['NoticeType'], true) == $res['signature']) {
+            return $res;
+        } else {
+
+            return false;
+        }
     }
 
 
@@ -129,14 +137,9 @@ class Lite
      * @param $str bool 参数是否是 字符串
      * @return string
      */
-    public function sign($parameters, $str = false)
+    private function sign($parameters, $str = false)
     {
-        if ($str) {
-            $parametersStr = $parameters;
-        } else {
-            $parametersStr = json_encode($parameters);
-        }
-
+        $parametersStr = $str == true ? $parameters : json_encode($parameters);
         return base64_encode(strtoupper(md5($this->merchantCode . $this->appKey . $parametersStr)));
     }
 
