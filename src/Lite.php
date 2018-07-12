@@ -129,7 +129,7 @@ class Lite
      * @param $str bool 参数是否是 字符串
      * @return string
      */
-    private function sign($parameters, $str = false)
+    public function sign($parameters, $str = false)
     {
         if ($str) {
             $parametersStr = $parameters;
