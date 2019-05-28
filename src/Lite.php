@@ -137,7 +137,7 @@ class Lite
      * @param $str bool 参数是否是 字符串
      * @return string
      */
-    private function sign($parameters, $str = false)
+    public function sign($parameters, $str = false)
     {
         $parametersStr = $str == true ? $parameters : json_encode($parameters);
         return base64_encode(strtoupper(md5($this->merchantCode . $this->appKey . $parametersStr)));
@@ -150,7 +150,7 @@ class Lite
      * @param $data
      * @return mixed
      */
-    private function postData($url, $data = null)
+    public function postData($url, $data = null)
     {
         $postUrl = $url . http_build_query($data);
         //初始化
@@ -168,7 +168,7 @@ class Lite
      * @param $xml
      * @return mixed
      */
-    private function xmlToArray($xml)
+    public function xmlToArray($xml)
     {
         libxml_disable_entity_loader(true);//禁止引用外部xml实体
         $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
